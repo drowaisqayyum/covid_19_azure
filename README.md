@@ -201,7 +201,8 @@ following steps:
 	 col("population").cast("integer"),
 	 col("administrative_area_level_1")
 ) 
-```
+	```
+	
 6. **Advanced Analytics**: Use Azure Synapse Analytics to perform
    advanced analytical computations on the enriched dataset. Leverage
    distributed computing and SQL capabilities to gain insights from
@@ -243,6 +244,7 @@ Follow these steps to utilize the repository:
    COVID-19 data analysis.
 
 ## Folder Structure
+```
 project_root/
 │
 ├── data/
@@ -257,7 +259,7 @@ project_root/
 │   └── pipelines/
 │
 └── README.md
-
+```
 # Contributing
 Contributions are welcome! If you find any issues or have suggestions
 for improvement, please open an issue or submit a pull request.
