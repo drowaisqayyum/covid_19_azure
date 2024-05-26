@@ -1,11 +1,12 @@
 # COVID-19 Data Analysis using Azure
 
 This repository showcases an end-to-end data analytics pipeline
-designed for COVID-19 data analysis utilizing Azure services. The
-pipeline seamlessly ingests data from CSV files hosted on GitHub,
-stores it in Azure Data Lake Storage Gen2, conducts transformations
-and enrichments through Azure Databricks, and conducts advanced
-analytics via Azure Synapse Analytics.
+designed for **COVID-19** data analysis utilizing **Azure services**. The
+pipeline seamlessly ingests data from CSV files hosted on [COVID-19 Data Hub
+   website](https://covid19datahub.io/articles/data.html),
+stores it in **Azure Data Lake Storage Gen2**, conducts transformations
+and enrichments through **Azure Databricks**, and conducts advanced
+analytics via **Azure Synapse Analytics**.
 
 ![Covid 19 Architecture](images/01_covid_19.jpeg)
 
@@ -45,13 +46,13 @@ Gen2.
 
 Here's an overview of the data ingestion process:
 
-1. Create an Azure Data Factory pipeline.
+1. Create an **Azure Data Factory** pipeline.
 
 2. Configure the pipeline to retrieve the raw data files from the
    COVID-19 Data Hub using the provided URLs.
 
-3. Set up the pipeline to store the retrieved data in Azure Data Lake
-   Storage Gen2.
+3. Set up the pipeline to store the retrieved data in **Azure Data Lake
+   Storage Gen2**.
 
 4. Schedule the pipeline to run at regular intervals to maintain
    up-to-date data.
@@ -63,8 +64,8 @@ and analysis.
 ### Data Structure
 
 The raw data files from the COVID-19 Data Hub contain various
-attributes related to COVID-19 cases, deaths, recoveries, tests, and
-vaccinations. This data is provided at different administrative levels
+attributes related to **COVID-19 cases, deaths, recoveries, tests, and
+vaccinations**. This data is provided at different administrative levels
 (country, state, and city) and includes daily records.
 
 Key attributes in the raw data files include:
@@ -141,22 +142,23 @@ following steps:
    
    ![Application Registration](images/app_registration.png)
 
-2. **Key Vault Configuration**: Establish an Azure Key Vault to
-   securely store application registration keys (client ID, tenant ID,
-   and secret key). Grant access permissions to Azure Databricks for
+2. **Key Vault Configuration**: Establish an **Azure Key Vault** to
+   securely store application **registration keys (client ID, tenant ID,
+   and secret key)**. Grant access permissions to Azure Databricks for
    retrieving secrets from the Key Vault.
    
    ![Key Vault](images/kv_covid.png)
 
 3. **Azure Databricks Integration**: Create a secret scope within
    Azure Databricks to access key values from the Key Vault. Assign
-   appropriate permissions, such as "Storage Blob Data Contributor,"
+   appropriate permissions, such as **"Storage Blob Data Contributor,"**
    to the registered application (covid_app) for accessing data in
    Azure Data Lake Storage Gen2.
 
 4. **Data Ingestion**: Utilize Azure Data Factory to construct a data
-   pipeline responsible for ingesting COVID-19 datasets from GitHub
-   repositories and storing them in Azure Data Lake Storage Gen2.
+   pipeline responsible for ingesting COVID-19 datasets from [COVID-19 Data Hub
+   website](https://covid19datahub.io/articles/data.html)
+   and storing them in Azure Data Lake Storage Gen2.
    
     ![Key Vault](images/data_ingestion.png)
 
@@ -191,6 +193,7 @@ following steps:
    ```
    
    - **Transforming the data - Countries**
+   
 	 ```python
 	 from pyspark.sql.functions import col, to_date
 	 
@@ -210,7 +213,7 @@ following steps:
 	 col("vent").cast("integer"),
 	 col("population").cast("integer"),
 	 col("administrative_area_level_1")
-) 
+	 ) 
 	```
 	
 	The data transformation notebook can be found here [Databricks Notebook](covid-19-Transformation.ipynb)
