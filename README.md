@@ -7,6 +7,8 @@ stores it in Azure Data Lake Storage Gen2, conducts transformations
 and enrichments through Azure Databricks, and conducts advanced
 analytics via Azure Synapse Analytics.
 
+![Covid 19 Architecture](images/01_covid_19.jpeg)
+
 ## Data Source
 The COVID-19 dataset used in this project is sourced from the
 [COVID-19 Data
@@ -28,9 +30,9 @@ steps:
    - City level data
 
 3. Access the data for each level using the following URLs:
-   - Country level data: [https://storage.covid19datahub.io/level/1.csv](https://storage.covid19datahub.io/level/1.csv)
-   - State level data: [https://storage.covid19datahub.io/level/2.csv](https://storage.covid19datahub.io/level/2.csv)
-   - City level data: [https://storage.covid19datahub.io/level/3.csv](https://storage.covid19datahub.io/level/3.csv)
+   - Country level data: [country level data](https://storage.covid19datahub.io/level/1.csv)
+   - State level data: [state level data](https://storage.covid19datahub.io/level/2.csv)
+   - City level data: [city level data](https://storage.covid19datahub.io/level/3.csv)
 
 4. Download the CSV files for the desired level of analysis.
 
@@ -111,6 +113,8 @@ The project architecture encompasses the following key components:
 2. **Data Storage**: Employs Azure Data Lake Storage Gen2 for storing
    the ingested dataset, providing scalability and optimized
    performance for large-scale data analytics.
+   
+   ![data storage](images/data_files.png)
 
 3. **Data Transformation**: Leverages Azure Databricks, a fully
    managed Apache Spark platform, for transforming and enriching the
@@ -134,11 +138,15 @@ following steps:
 1. **Application Registration**: Register an application in Azure
    Active Directory to enable connectivity between Azure Databricks
    and Azure Data Lake Storage Gen2.
+   
+   ![Application Registration](images/app_registration.png)
 
 2. **Key Vault Configuration**: Establish an Azure Key Vault to
    securely store application registration keys (client ID, tenant ID,
    and secret key). Grant access permissions to Azure Databricks for
    retrieving secrets from the Key Vault.
+   
+   ![Key Vault](images/kv_covid.png)
 
 3. **Azure Databricks Integration**: Create a secret scope within
    Azure Databricks to access key values from the Key Vault. Assign
@@ -149,13 +157,15 @@ following steps:
 4. **Data Ingestion**: Utilize Azure Data Factory to construct a data
    pipeline responsible for ingesting COVID-19 datasets from GitHub
    repositories and storing them in Azure Data Lake Storage Gen2.
+   
+    ![Key Vault](images/data_ingestion.png)
 
 5. **Data Transformation**: Utilize Azure Databricks notebooks to
    transform and enrich the dataset. Perform data manipulations,
    cleansing, and feature engineering to prepare the data for advanced
    analytics.
    
-   - Mounting the data to Databricks:
+   - **Mounting the data to Databricks:**
    ```python
    # Get the secret values from the secret scope
    client_id = dbutils.secrets.get(scope="key-vault-scope", key="clientid")
@@ -180,7 +190,7 @@ following steps:
 	)
    ```
    
-   - Transforming the data - Countries
+   - **Transforming the data - Countries**
 	 ```python
 	 from pyspark.sql.functions import col, to_date
 	 
@@ -203,6 +213,8 @@ following steps:
 ) 
 	```
 	
+	The data transformation notebook can be found here [Databricks Notebook](covid-19-Transformation.ipynb)
+	
 6. **Advanced Analytics**: Use Azure Synapse Analytics to perform
    advanced analytical computations on the enriched dataset. Leverage
    distributed computing and SQL capabilities to gain insights from
@@ -215,6 +227,9 @@ following steps:
 	   GROUP BY country
 	   ORDER BY total_confirmed DESC;
    ```
+   
+     ![total confirmed cases for top 20 country](images/queries/01_sql_queries.jpeg)
+	 
    ```sql
 	-- Find the top 10 states with the highest number of confirmed cases:
 		SELECT TOP 10 state, MAX(total_confirmed) AS total_confirmed
@@ -222,6 +237,9 @@ following steps:
 		GROUP BY state
 		ORDER BY total_confirmed DESC;
 	```
+	
+	  ![states with the highest number of confirmed cases](images/queries/02_sql_queries.jpeg)
+	  
 	```sql
 	-- Find the top 10 cities with the highest number of confirmed cases:
 		SELECT TOP 10 city, MAX(total_confirmed) AS total_confirmed
@@ -229,7 +247,12 @@ following steps:
 		GROUP BY city
 		ORDER BY total_confirmed DESC;
    ```
-
+   
+     ![Cities with the highest number of confirmed cases](images/queries/03_sql_queries.jpeg)
+	 
+	 
+   The detailed sql queries file can be found here [SQL Queries](analysis_covid.sql)
+   
 ## Usage
 
 Follow these steps to utilize the repository:
