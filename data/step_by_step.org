@@ -1,0 +1,46 @@
+* Introduction
+*** Getting the data
+i got the data from COVID-19 Data Hub 
+https://covid19datahub.io/articles/data.html
+
+this data is divided into three parts. 
+1. County level data 
+2. State level data
+3. City level data
+
+https://storage.covid19datahub.io/level/1.csv (country)
+https://storage.covid19datahub.io/level/2.csv (state)
+https://storage.covid19datahub.io/level/3.csv (city)
+
+So now i got all these files
+
+*** Data ingestion: Data Factory
+Using data factory and http source, i moved all the data to azure data lake gen2 (raw).
+
+*** Data transformation : Azure databricks
+**** Application Registration
+In order to connect azure databricks with azure datalake, first i need
+to register an application.
+
+**** Keyvault registration
+create keyvault and store the application registration keys into
+it. This way we can access these keys in the azure databricks
+directly.
+
+first it will show error as the resource group doesnt have any access
+to manage registered application.  Hence change the RBAC at resource
+group and authorize the covid_app.
+
+We need to add the clientid, tenantid and secretkey(applicationkey) in the
+keyvault.
+
+Also grant access to databricks to use the keyvault. 
+
+**** Integrating Azure Databricks with the keyvault
+it has two steps
+
+1. create a secret scope for accessing the secret key values from keyvault
+2. add covid_app permission to access the data from the datalake. So
+   go to data lake container -> IAM -> give covid_app access to
+   "Storage Blob Data Contributor".
+
